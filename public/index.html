@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111019" />
+    <title>Комнаты — Nightcall</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Nightcall"
+        ><span class="brand-mark">✦</span><span>nightcall</span></a
+      >
+      <div class="top-status">
+        <span class="status-dot"></span> Голосовые комнаты
+      </div>
+    </header>
+    <main>
+      <section id="homeView" class="home-view">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="eyebrow-line"></span> ТВОЙ КРУГ. ТВОЙ ГОЛОС.
+          </div>
+          <h1>Ближе, даже<br /><span>если далеко.</span></h1>
+          <p class="hero-description">
+            Создай комнату, позови друзей и просто будь на связи. Без лишнего
+            шума.
+          </p>
+        </div>
+        <div class="home-grid">
+          <button id="createRoom" class="action-card primary-card">
+            <span class="card-icon">+</span
+            ><span class="card-title">Создать комнату</span
+            ><span class="card-description">Начни свой голосовой вечер</span
+            ><span class="card-arrow">↗</span>
+          </button>
+          <div class="action-card join-card">
+            <span class="card-icon join-icon">⌁</span
+            ><label class="card-title" for="roomCode">Подключиться</label
+            ><span class="card-description">Введи код комнаты друга</span>
+            <div class="join-row">
+              <input
+                id="roomCode"
+                maxlength="6"
+                placeholder="НАПРИМЕР, A7K2QF"
+                autocomplete="off"
+              /><button
+                id="joinRoom"
+                class="round-button"
+                aria-label="Подключиться"
+              >
+                →
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="home-bottom">
+          <button id="openSettingsHome" class="text-button">
+            <span>⚙</span> Настройки звука</button
+          ><span class="secure-note"><span>⌁</span> Только по приглашению</span>
+        </div>
+        <div id="homeError" class="notice hidden" role="status"></div>
+      </section>
+
+      <section id="roomView" class="room-view hidden">
+        <div class="room-heading">
+          <div>
+            <div class="eyebrow">
+              <span class="eyebrow-line"></span> ТВОЯ КОМНАТА
+            </div>
+            <h2>Свои люди<span class="heading-period">.</span></h2>
+            <p class="room-subtitle">Место, где можно просто быть собой.</p>
+          </div>
+          <div class="room-code-box">
+            <span>КОД ПРИГЛАШЕНИЯ</span>
+            <div>
+              <strong id="roomCodeLabel">------</strong
+              ><button id="copyInvite" title="Скопировать ссылку">▢</button>
+            </div>
+          </div>
+        </div>
+        <div class="room-layout">
+          <div class="people-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="panel-title">В комнате</span
+                ><span id="memberCount" class="count-pill">1</span>
+              </div>
+              <span class="live-label"><i></i> В эфире</span>
+            </div>
+            <div id="membersGrid" class="members-grid"></div>
+            <div id="connectionNotice" class="connection-notice hidden"></div>
+          </div>
+          <aside class="room-side">
+            <div class="side-card now-card">
+              <span class="side-overline">СЕЙЧАС ВМЕСТЕ</span>
+              <div class="sound-wave">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i
+                ><i></i><i></i><i></i>
+              </div>
+              <p>Разговор начинается<br />с простого «привет».</p>
+            </div>
+            <div class="side-card invite-card">
+              <div class="invite-symbol">↗</div>
+              <div>
+                <strong>Позови своих</strong>
+                <p>Поделись ссылкой, чтобы друзья могли присоединиться.</p>
+              </div>
+              <button id="copyInviteSide" class="outline-button">
+                Скопировать ссылку
+              </button>
+            </div>
+          </aside>
+        </div>
+        <div class="call-controls">
+          <button id="muteButton" class="control-button">
+            <span class="control-icon">♩</span
+            ><span id="muteLabel">Выключить микрофон</span></button
+          ><button id="settingsRoom" class="control-button">
+            <span class="control-icon">⚙</span><span>Настройки</span></button
+          ><button id="leaveRoom" class="control-button leave-button">
+            <span class="control-icon">↗</span><span>Выйти</span>
+          </button>
+        </div>
+      </section>
+    </main>
+    <button id="chatToggle" class="chat-toggle hidden" aria-label="Открыть чат">
+      <span>▤</span><i id="chatUnread" class="chat-unread hidden"></i>
+    </button>
+    <aside id="chatDrawer" class="chat-drawer" aria-label="Чат">
+      <div class="drawer-header">
+        <div>
+          <span class="drawer-kicker">КОМНАТА</span>
+          <h3>Общий чат</h3>
+        </div>
+        <button id="closeChat" class="icon-button" aria-label="Закрыть чат">
+          ×
+        </button>
+      </div>
+      <div id="chatMessages" class="chat-messages">
+        <div class="chat-empty">
+          Здесь появятся сообщения.<br />Начни разговор 👋
+        </div>
+      </div>
+      <form id="chatForm" class="chat-form">
+        <input
+          id="chatInput"
+          maxlength="1500"
+          placeholder="Написать сообщение…"
+          autocomplete="off"
+        /><button aria-label="Отправить сообщение">↑</button>
+      </form>
+    </aside>
+    <div id="modalBackdrop" class="modal-backdrop hidden">
+      <section
+        class="settings-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="settingsTitle"
+      >
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">ТВОЁ ЗВУЧАНИЕ</div>
+            <h2 id="settingsTitle">Настройки звука</h2>
+          </div>
+          <button
+            id="closeSettings"
+            class="icon-button"
+            aria-label="Закрыть настройки"
+          >
+            ×
+          </button>
+        </div>
+        <div class="setting-group">
+          <label for="displayName">Твоё имя</label
+          ><input
+            id="displayName"
+            maxlength="24"
+            placeholder="Как тебя называть?"
+          />
+          <p class="field-hint">Имя увидят остальные участники комнаты.</p>
+        </div>
+        <div class="setting-group">
+          <label>Аватарка</label>
+          <div class="avatar-upload-row">
+            <div id="avatarPreview" class="avatar-preview">✦</div>
+            <div>
+              <label class="upload-button" for="avatarFile"
+                >Загрузить картинку</label
+              ><input
+                id="avatarFile"
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                hidden
+              />
+              <p class="field-hint">PNG, JPG или WebP · до 1,5 МБ</p>
+            </div>
+          </div>
+        </div>
+        <div class="setting-group">
+          <label for="micSelect">Микрофон</label
+          ><select id="micSelect">
+            <option value="">По умолчанию</option></select
+          ><button id="testMic" class="small-action">Проверить микрофон</button>
+          <div class="meter"><span id="micMeter"></span></div>
+          <p id="micStatus" class="field-hint">
+            Нажми проверку, чтобы убедиться, что тебя слышно.
+          </p>
+        </div>
+        <div class="setting-group">
+          <label for="speakerSelect">Наушники / выход звука</label
+          ><select id="speakerSelect">
+            <option value="">По умолчанию</option>
+          </select>
+          <p class="field-hint">
+            Выбор устройства вывода поддерживается не всеми браузерами.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <span id="settingsError" class="field-hint"></span
+          ><button id="saveSettings" class="save-button">Сохранить</button>
+        </div>
+      </section>
+    </div>
+    <div id="profileGate" class="modal-backdrop hidden">
+      <section class="settings-modal profile-modal">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">ПЕРЕД ВХОДОМ</div>
+            <h2>Как тебя узнают?</h2>
+            <p class="room-subtitle">
+              Выбери имя и аватарку — и залетай к друзьям.
+            </p>
+          </div>
+        </div>
+        <div class="setting-group">
+          <label for="gateName">Твоё имя</label
+          ><input id="gateName" maxlength="24" placeholder="Например, Alex" />
+        </div>
+        <div class="setting-group">
+          <label>Аватарка</label>
+          <div class="avatar-upload-row">
+            <div id="gateAvatarPreview" class="avatar-preview">✦</div>
+            <label class="upload-button" for="gateAvatarFile"
+              >Загрузить картинку</label
+            ><input
+              id="gateAvatarFile"
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif"
+              hidden
+            />
+          </div>
+        </div>
+        <button id="confirmProfile" class="save-button full-button">
+          Продолжить в комнату
+        </button>
+        <p id="gateError" class="field-hint"></p>
+      </section>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
