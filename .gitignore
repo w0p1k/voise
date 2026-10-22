@@ -1,5 +1,6 @@
 
 node_modules/
+/data/
 README
 README.md
 README.txt
